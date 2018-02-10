@@ -1,20 +1,12 @@
 <?php
-
 namespace Illuminate\Encryption;
 
-use RuntimeException;
-use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
+use RuntimeException;
 
-class EncryptionServiceProvider extends ServiceProvider
-{
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
+class EncryptionServiceProvider extends ServiceProvider {
+    public function register() {
         $this->app->singleton('encrypter', function ($app) {
             $config = $app->make('config')->get('app');
 
@@ -28,21 +20,9 @@ class EncryptionServiceProvider extends ServiceProvider
             return new Encrypter($key, $config['cipher']);
         });
     }
-
-    /**
-     * Extract the encryption key from the given configuration.
-     *
-     * @param  array  $config
-     * @return string
-     */
-    protected function key(array $config)
-    {
+    protected function key(array $config) {
         return tap($config['key'], function ($key) {
-            if (empty($key)) {
-                throw new RuntimeException(
-                    'No application encryption key has been specified.'
-                );
-            }
+            if ( empty($key) ) throw new RuntimeException('No application encryption key has been specified.');
         });
     }
 }

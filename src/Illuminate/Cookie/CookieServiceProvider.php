@@ -1,18 +1,10 @@
 <?php
-
 namespace Illuminate\Cookie;
 
 use Illuminate\Support\ServiceProvider;
 
-class CookieServiceProvider extends ServiceProvider
-{
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
+class CookieServiceProvider extends ServiceProvider {
+    public function register() {
         $this->app->singleton('cookie', function ($app) {
             $config = $app->make('config')->get('session');
 

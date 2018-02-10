@@ -1,11 +1,9 @@
 <?php
-
 namespace Illuminate\Container;
 
 use Illuminate\Contracts\Container\ContextualBindingBuilder as ContextualBindingBuilderContract;
 
-class ContextualBindingBuilder implements ContextualBindingBuilderContract
-{
+class ContextualBindingBuilder implements ContextualBindingBuilderContract {
     /**
      * The underlying container instance.
      *
@@ -34,8 +32,7 @@ class ContextualBindingBuilder implements ContextualBindingBuilderContract
      * @param  string  $concrete
      * @return void
      */
-    public function __construct(Container $container, $concrete)
-    {
+    public function __construct(Container $container, $concrete) {
         $this->concrete = $concrete;
         $this->container = $container;
     }
@@ -46,8 +43,7 @@ class ContextualBindingBuilder implements ContextualBindingBuilderContract
      * @param  string  $abstract
      * @return $this
      */
-    public function needs($abstract)
-    {
+    public function needs($abstract) {
         $this->needs = $abstract;
 
         return $this;
@@ -59,8 +55,7 @@ class ContextualBindingBuilder implements ContextualBindingBuilderContract
      * @param  \Closure|string  $implementation
      * @return void
      */
-    public function give($implementation)
-    {
+    public function give($implementation) {
         $this->container->addContextualBinding(
             $this->concrete, $this->needs, $implementation
         );

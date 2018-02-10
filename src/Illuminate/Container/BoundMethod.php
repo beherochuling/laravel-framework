@@ -1,5 +1,4 @@
 <?php
-
 namespace Illuminate\Container;
 
 use Closure;
@@ -7,8 +6,7 @@ use ReflectionMethod;
 use ReflectionFunction;
 use InvalidArgumentException;
 
-class BoundMethod
-{
+class BoundMethod {
     /**
      * Call the given Closure / class@method and inject its dependencies.
      *
@@ -18,8 +16,7 @@ class BoundMethod
      * @param  string|null  $defaultMethod
      * @return mixed
      */
-    public static function call($container, $callback, array $parameters = [], $defaultMethod = null)
-    {
+    public static function call($container, $callback, array $parameters = [], $defaultMethod = null) {
         if (static::isCallableWithAtSign($callback) || $defaultMethod) {
             return static::callClass($container, $callback, $parameters, $defaultMethod);
         }
@@ -42,8 +39,7 @@ class BoundMethod
      *
      * @throws \InvalidArgumentException
      */
-    protected static function callClass($container, $target, array $parameters = [], $defaultMethod = null)
-    {
+    protected static function callClass($container, $target, array $parameters = [], $defaultMethod = null) {
         $segments = explode('@', $target);
 
         // We will assume an @ sign is used to delimit the class name from the method
@@ -69,8 +65,7 @@ class BoundMethod
      * @param  mixed  $default
      * @return mixed
      */
-    protected static function callBoundMethod($container, $callback, $default)
-    {
+    protected static function callBoundMethod($container, $callback, $default) {
         if (! is_array($callback)) {
             return $default instanceof Closure ? $default() : $default;
         }
@@ -93,8 +88,7 @@ class BoundMethod
      * @param  callable  $callback
      * @return string
      */
-    protected static function normalizeMethod($callback)
-    {
+    protected static function normalizeMethod($callback) {
         $class = is_string($callback[0]) ? $callback[0] : get_class($callback[0]);
 
         return "{$class}@{$callback[1]}";
@@ -108,8 +102,7 @@ class BoundMethod
      * @param  array  $parameters
      * @return array
      */
-    protected static function getMethodDependencies($container, $callback, array $parameters = [])
-    {
+    protected static function getMethodDependencies($container, $callback, array $parameters = []) {
         $dependencies = [];
 
         foreach (static::getCallReflector($callback)->getParameters() as $parameter) {
@@ -125,8 +118,7 @@ class BoundMethod
      * @param  callable|string  $callback
      * @return \ReflectionFunctionAbstract
      */
-    protected static function getCallReflector($callback)
-    {
+    protected static function getCallReflector($callback) {
         if (is_string($callback) && strpos($callback, '::') !== false) {
             $callback = explode('::', $callback);
         }
@@ -145,8 +137,7 @@ class BoundMethod
      * @param  array  $dependencies
      * @return mixed
      */
-    protected static function addDependencyForCallParameter($container, $parameter,
-                                                            array &$parameters, &$dependencies)
+    protected static function addDependencyForCallParameter($container, $parameter, array &$parameters, &$dependencies)
     {
         if (array_key_exists($parameter->name, $parameters)) {
             $dependencies[] = $parameters[$parameter->name];
@@ -165,8 +156,7 @@ class BoundMethod
      * @param  mixed  $callback
      * @return bool
      */
-    protected static function isCallableWithAtSign($callback)
-    {
+    protected static function isCallableWithAtSign($callback) {
         return is_string($callback) && strpos($callback, '@') !== false;
     }
 }
